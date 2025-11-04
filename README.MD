@@ -28,7 +28,7 @@ Este repositorio aloja la API RESTful construida con el stack MERN, diseñada pa
 
 ### Pasos
 
-1.  Asegúrate de estar en la carpeta raíz del proyecto Backend (`/BACKEND-EXPRESS-GRUPO-B`).
+1.  Asegúrar de estar en la carpeta raíz del proyecto Backend (`/BACKEND-EXPRESS-GRUPO-B`).
 2.  Instala las dependencias:
     ```bash
     npm install
@@ -49,8 +49,8 @@ JWT_SECRET=miSecretoSuperSeguro
 
 ### Ejecución en Modo Desarrollo
 
-1.  Asegúrate de que tu instancia de MongoDB esté activa.
-2.  Inicia el servidor:
+1.  Asegúrar de que MongoDB esté activa.
+2.  Iniciar el servidor:
     ```bash
     npm start
     ```
