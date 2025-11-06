@@ -31,7 +31,11 @@ Este repositorio aloja la API RESTful construida con el stack MERN, diseñada pa
 
 ### Pasos
 
+
 1.  Asegúrate de estar en la carpeta raíz del proyecto Backend.
+
+1.  Asegúrar de estar en la carpeta raíz del proyecto Backend (`/BACKEND-EXPRESS-GRUPO-B`).
+
 2.  Instala las dependencias:
     ```bash
     npm install
@@ -52,6 +56,16 @@ JWT_SECRET=miSecretoSuperSeguro
 
 # URL del Frontend (usada para CORS)
 FRONTEND_URL=http://localhost:5173
+
+
+### Ejecución en Modo Desarrollo
+
+1.  Asegúrar de que MongoDB esté activa.
+2.  Iniciar el servidor:
+    ```bash
+    npm start
+    ```
+La API estará operativa en `http://localhost:5000`.
 
 
 ## Endpoints Principales (Ejemplos)
@@ -92,3 +106,5 @@ MONGO_URI=mongodb+srv://stefaniamairatorres_db_user:<db_password>@cudi-db-cluste
 JWT_SECRET=miSecretoSuperSeguro
 PORT=5000
 FRONTEND_URL=https://remarkable-souffle-ccdbb3.netlify.app
+
+
