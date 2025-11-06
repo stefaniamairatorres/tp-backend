@@ -20,7 +20,7 @@ const app = express();
 // Middlewares
 app.use(
     cors({
-        origin: 'http://localhost:5173', // <--- Permite SÓLO a tu frontend acceder
+        origin: process.env.FRONTEND_URL,
         credentials: true,               // <--- Crucial para el manejo de cookies (JWT)
     })
 );
