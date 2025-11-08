@@ -20,7 +20,6 @@ Este repositorio aloja la API RESTful construida con el stack MERN, diseñada pa
 * **Dotenv:** Para manejo de variables de entorno.
 * **Cors:** Configuración para permitir solicitudes desde el Frontend (Vite).
 
----
 
 ## ⚙️ Configuración y Ejecución
 
@@ -79,7 +78,6 @@ La API estará operativa en `http://localhost:5000`.
 | `POST` | `/api/admin/products` | Crea un nuevo producto (Ruta protegida por Admin). |
 | `POST` | `/api/purchases` | **Endpoint de Compra (Lógica del carrito pendiente de finalizar).** |
 
----
 
 # 🚀 Detalles Finales del Despliegue del Proyecto
 
@@ -92,7 +90,7 @@ Este proyecto consiste en una aplicación Full-Stack con un Frontend desplegado 
 | **Link Frontend Desplegado** | ✅ Listo | `https://remarkable-souffle-ccdbb3.netlify.app` |
 | **Link Backend Desplegado (API)** | ✅ Listo | `https://tp-backend-2-mftw.onrender.com` |
 
----
+
 
 ## ⚙️ Variables de Entorno de Ejemplo (Archivos .env.example)
 
