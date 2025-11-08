@@ -1,4 +1,4 @@
-// src/utils/generateToken.js
+
 
 import jwt from 'jsonwebtoken';
 
@@ -11,7 +11,7 @@ const generateToken = (res, userId) => {
     // 2. Establecer el token como una cookie HttpOnly
     res.cookie('jwt', token, {
         httpOnly: true, 
-        // Asegura que 'secure' siempre sea true en Render
+        // Asegurar que 'secure' siempre sea true en Render
         // Dado que Render está en HTTPS, es mejor forzarlo a true, o asegurarnos de que NODE_ENV esté correcto
         secure: true, // FORZAR a true para HTTPS en Render
         

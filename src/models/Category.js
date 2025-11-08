@@ -1,4 +1,4 @@
-// src/models/Category.js
+
 
 import mongoose from 'mongoose';
 

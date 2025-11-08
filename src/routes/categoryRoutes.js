@@ -1,7 +1,7 @@
-// src/routes/categoryRoutes.js
+
 
 import express from "express";
-// Asegúrate de que tengas un controlador con estas funciones
+// Asegúrar de que tenga un controlador con estas funciones
 import { getCategories, updateCategory } from "../controllers/categoryController.js"; 
 
 const router = express.Router();

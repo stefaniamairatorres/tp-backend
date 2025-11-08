@@ -1,6 +1,6 @@
-// userController.js
 
-// 🚨 Asegúrate de importar tu función para generar el token
+
+// Asegúrar de importar tu función para generar el token
 import { registerUserService, loginUserService } from "../services/userService.js";
 import generateToken from '../utils/generateToken.js'; // <--- (Asume esta ruta)
 
