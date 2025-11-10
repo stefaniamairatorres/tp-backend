@@ -1,4 +1,4 @@
-// src/controllers/categoryController.js
+
 
 import Category from "../models/Category.js"; // ¡Única importación correcta!
 
