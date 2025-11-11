@@ -22,23 +22,17 @@ const app = express();
 
 // Definición de orígenes permitidos
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // e.g., https://remarkable-souffle-ccdbb3.netlify.app
-  'http://localhost:5173',  // Localhost para desarrollo (si lo usas)
+  process.env.FRONTEND_URL,
+  'http://localhost:5173'
 ];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Permitir solicitudes de orígenes en la lista o si no tienen origen definido (como Postman o Render Health Check)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'), false);
-      }
-    },
-    credentials: true, // Crucial para el manejo de cookies (JWT)
-  })
-);
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'), false);
+  },
+  credentials: true
+}));
 
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
