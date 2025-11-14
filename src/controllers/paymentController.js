@@ -68,4 +68,4 @@ const receiveWebhook = (req, res) => {
 };
 
 
-export { createPaymentPreference, receiveWebhook };
+export { createPaymentPreference, receiveWebhook, simulatePayment };
