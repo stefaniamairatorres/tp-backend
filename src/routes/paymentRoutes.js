@@ -1,20 +1,34 @@
 import express from 'express';
-// Asegúrate de que tu controlador ahora exporte simulatePayment
-// Haremos que esta línea importe también 'simulatePayment'
-import { createPaymentPreference, receiveWebhook, simulatePayment } from '../controllers/paymentController.js'; 
+import Stripe from 'stripe';
 
 const router = express.Router();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// POST: Llama a la función del controlador
-router.post('/create-preference', createPaymentPreference); 
+// Middleware para parsear JSON
+router.use(express.json());
 
-// POST: Ruta para Webhooks de Mercado Pago
-router.post('/webhook', receiveWebhook);
+// Crear Payment Intent
+router.post('/create-payment-intent', async (req, res) => {
+    try {
+        const { amount } = req.body; // Monto en centavos
 
-// ==========================================================
-// 🚨 RUTA AÑADIDA PARA LA SIMULACIÓN DE PAGO 🚨
-// ==========================================================
-// POST: Permite al frontend simular una transacción exitosa sin ir a MP.
-router.post('/simulate', simulatePayment);
+        if (!amount || amount <= 0) {
+            return res.status(400).json({ error: "Monto inválido" });
+        }
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency: "usd", // Cambiá a "ars" si querés
+            automatic_payment_methods: { enabled: true },
+        });
+
+        res.json({
+            clientSecret: paymentIntent.client_secret,
+        });
+    } catch (error) {
+        console.error("Stripe Error:", error);
+        res.status(500).json({ error: "Error creando Payment Intent" });
+    }
+});
 
 export default router;
