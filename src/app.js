@@ -18,6 +18,7 @@ app.use(express.json());
 // y permite que la aplicación cargue los productos.
 // NOTA: Esta URI contiene tu contraseña, por lo que debe eliminarse de aquí una vez que Render cargue la variable de entorno.
 const HARDCODED_URI = 'mongodb+srv://stefaniamairatorres_db_user:stefania123456@cluster0.l9nrhim.mongodb.net/tienda?retryWrites=true&w=majority';
+// Cambio forzado para Git 16/11
 const MONGODB_CONNECT_URI = process.env.MONGODB_URI || HARDCODED_URI;
 
 // Conexión a MongoDB
