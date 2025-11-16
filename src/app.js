@@ -13,18 +13,31 @@ const app = express();
 // Middleware para procesar JSON
 app.use(express.json());
 
-// ⚠️ CONFIGURACIÓN CRÍTICA DE CORS ⚠️
-// Añadir aquí todos los dominios que accederán al backend
+// 🚨 SOLUCIÓN FORZOSA: Usamos tu URI de MongoDB directamente como respaldo (fallback)
+// Si la variable de entorno de Render falla. Esto soluciona el error 'undefined'
+// y permite que la aplicación cargue los productos.
+// NOTA: Esta URI contiene tu contraseña, por lo que debe eliminarse de aquí una vez que Render cargue la variable de entorno.
+const HARDCODED_URI = 'mongodb+srv://stefaniamairatorres_db_user:stefania123456@cluster0.l9nrhim.mongodb.net/tienda?retryWrites=true&w=majority';
+const MONGODB_CONNECT_URI = process.env.MONGODB_URI || HARDCODED_URI;
+
+// Conexión a MongoDB
+mongoose.connect(MONGODB_CONNECT_URI)
+    .then(() => console.log('✅ MongoDB conectado forzosamente. El servidor Express puede arrancar.'))
+    .catch(err => {
+        console.error('❌ Error CRÍTICO de conexión a MongoDB:', err.message);
+        // Si hay un error, el servidor al menos intentará arrancar en el puerto 5000
+    });
+
+
+// CONFIGURACIÓN CRÍTICA DE CORS 
 const allowedOrigins = [
-    'http://localhost:5173', // Para desarrollo local del frontend
-    'https://tp-back-final.onrender.com', // El dominio propio (Render)
-    'https://tp-grupo-b-git-main-stefaniamairatorres-projects.vercel.app', // URL de Vercel
-    // Si tu URL final de Vercel es diferente a la de la rama 'main', agrégala aquí también.
+    'http://localhost:5173', 
+    'https://tp-back-final.onrender.com', 
+    'https://tp-grupo-b-git-main-stefaniamairatorres-projects.vercel.app', 
 ];
 
 const corsOptions = {
     origin: (origin, callback) => {
-        // Permitir solicitudes sin origen (como aplicaciones móviles, cURL o navegadores antiguos)
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -36,11 +49,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB conectado: ' + process.env.MONGODB_URI.substring(21, 58)))
-    .catch(err => console.error('Error de conexión a MongoDB:', err));
 
 // Rutas
 app.get('/', (req, res) => {
