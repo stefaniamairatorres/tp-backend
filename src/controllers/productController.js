@@ -19,13 +19,16 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// 🟢 Obtener todos los productos
+// 🟢 Obtener todos los productos (VERSIÓN CORREGIDA SIN POPULATE)
 export const getProducts = async (req, res) => {
   try {
-    // Incluir populate para mostrar la información completa de la categoría
-    const products = await Product.find({}).populate('category'); 
+    // Se elimina .populate('category') para evitar el error 500 que tumba el servidor en Render.
+    // El fallo era la referencia a la categoría al cargar los productos.
+    const products = await Product.find({}); 
     res.json(products);
   } catch (error) {
+    // Dejamos el manejo de error 500 para diagnosticar si falla por otra razón
+    console.error("Error CRÍTICO en getProducts:", error.message);
     res.status(500).json({ message: "Error al obtener los productos", error: error.message });
   }
 };
