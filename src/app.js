@@ -4,8 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import productRoutes from './routes/productRoutes.js';
-// 🚨 LÍNEA CLAVE COMENTADA: Deshabilita la inicialización de Stripe para ARRANCAR EL SERVIDOR
-// import paymentRoutes from './routes/paymentRoutes.js'; 
+import categoryRoutes from './routes/categoryRoutes.js'; 
+import paymentRoutes from './routes/paymentRoutes.js'; 
 
 dotenv.config();
 
@@ -15,7 +15,6 @@ const app = express();
 app.use(express.json());
 
 // 🚨 SOLUCIÓN FORZOSA: Usamos tu URI de MongoDB directamente como respaldo (fallback)
-// Esto asegura que la conexión a la base de datos funcione.
 const HARDCODED_URI = 'mongodb+srv://stefaniamairatorres_db_user:stefania123456@cluster0.l9nrhim.mongodb.net/tienda?retryWrites=true&w=majority';
 // Comentario de prueba para forzar el commit
 const MONGODB_CONNECT_URI = process.env.MONGODB_URI || HARDCODED_URI;
@@ -30,11 +29,11 @@ mongoose.connect(MONGODB_CONNECT_URI)
 
 // CONFIGURACIÓN CRÍTICA DE CORS - ACEPTA TODOS LOS ORÍGENES (FIX DEFINITIVO)
 const corsOptions = {
-    // Usamos '*' para asegurar que Vercel se pueda conectar sin problemas de lista blanca.
-    origin: '*', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204
+    // Usamos '*' para asegurar que Vercel se pueda conectar sin problemas de lista blanca.
+    origin: '*', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
@@ -44,8 +43,8 @@ app.get('/', (req, res) => {
     res.send('Servidor de E-commerce activo.');
 });
 app.use('/api/products', productRoutes);
-// 🚨 LÍNEA CLAVE COMENTADA: Deshabilita la ruta de pago para evitar el error de Stripe.
-// app.use('/api/payment', paymentRoutes); 
+app.use('/api/categories', categoryRoutes); 
+app.use('/api/payment', paymentRoutes); 
 
 // Manejo de errores 404
 app.use((req, res, next) => {
