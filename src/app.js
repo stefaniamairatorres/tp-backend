@@ -30,7 +30,7 @@ mongoose.connect(MONGODB_CONNECT_URI)
 // CONFIGURACIÓN CRÍTICA DE CORS - ACEPTA TODOS LOS ORÍGENES (FIX DEFINITIVO)
 const corsOptions = {
     // Usamos '*' para asegurar que Vercel se pueda conectar sin problemas de lista blanca.
-    origin: '*', 
+    origin: 'https://tp-grupo-b.vercel.app',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     optionsSuccessStatus: 204
