@@ -1,71 +1,46 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago';
-import dotenv from 'dotenv';
+import express from 'express';
+import Stripe from 'stripe';
+import dotenv from 'dotenv'; 
 
-dotenv.config();
+// Carga las variables de entorno de Render
+dotenv.config(); 
 
-// Obtener la URL del frontend desplegado de las variables de entorno
-// ⚠️ ESTA VARIABLE DEBE SER AÑADIDA EN RENDER
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173"; 
+const router = express.Router();
+// INICIALIZACIÓN CRÍTICA: Aseguramos que se lea la clave de Render (sk_test_...)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// 🚨 CONFIGURACIÓN CORREGIDA 🚨
-// 1. Usa la clase MercadoPagoConfig para inicializar el cliente
-const client = new MercadoPagoConfig({ 
-    accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN,
-    options: { timeout: 5000 },
+// Middleware para parsear JSON
+router.use(express.json());
+
+// Ruta: POST /api/payment/create-payment-intent
+router.post('/create-payment-intent', async (req, res) => {
+    try {
+        const { amount } = req.body; 
+
+        if (!amount || amount <= 0) {
+            return res.status(400).json({ error: "Monto inválido. El monto debe ser un número positivo." });
+        }
+
+        // Crear la intención de pago
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount * 100, // Stripe usa centavos, se multiplica por 100
+            currency: "usd", // Moneda
+            automatic_payment_methods: { enabled: true },
+        });
+
+        // Devolver el secreto al Frontend
+        res.json({
+            clientSecret: paymentIntent.client_secret,
+            message: "Intención de pago creada con éxito.",
+        });
+    } catch (error) {
+        // Muestra el error de autenticación de Stripe en el log de Render
+        console.error("Error CRÍTICO de Stripe:", error); 
+        res.status(500).json({ 
+            error: "Hubo un problema al conectar con el servidor de pago. Verifique STRIPE_SECRET_KEY en Render y su validez.",
+            details: error.message 
+        });
+    }
 });
 
-// 2. Creamos una instancia de la clase Preference (necesaria para crear el checkout)
-const preference = new Preference(client);
-
-/**
- * @desc Crea una preferencia de pago en Mercado Pago
- * @route POST /api/payment/create-preference
- */
-const createPaymentPreference = async (req, res) => {
-    const { items, userId } = req.body; 
-
-    // 1. Transformar los ítems al formato requerido por Mercado Pago
-    const itemsMP = items.map(item => ({
-        title: item.name, 
-        unit_price: item.price,
-        quantity: item.quantity,
-        currency_id: 'ARS', // Ajusta la moneda si es necesario
-    }));
-
-    // 2. Crear la estructura de la solicitud
-    const body = {
-        items: itemsMP,
-        external_reference: userId, 
-        // ✅ CORRECCIÓN CLAVE: Usamos la variable de entorno para las URLs de retorno
-        back_urls: {
-            "success": `${FRONTEND_URL}/success`, 
-            "failure": `${FRONTEND_URL}/failure`,
-            "pending": `${FRONTEND_URL}/pending`,
-        },
-        auto_return: "approved",
-    };
-
-    try {
-        // 3. Crear la preferencia usando la instancia 'preference'
-        const response = await preference.create({ body });
-        
-        // 4. Devolver el link de inicio al frontend
-        res.status(200).json({ 
-            id: response.id, 
-            init_point: response.init_point 
-        });
-
-    } catch (error) {
-        console.error("Error al crear la preferencia de pago:", error);
-        res.status(500).json({ error: "No se pudo iniciar el proceso de pago. Revisa tu Access Token." });
-    }
-};
-
-const receiveWebhook = (req, res) => {
-    // La lógica de Webhook irá aquí
-    console.log("Notificación de Mercado Pago recibida:", req.query);
-    res.status(204).send();
-};
-
-
-export { createPaymentPreference, receiveWebhook, simulatePayment };
+export default router;
