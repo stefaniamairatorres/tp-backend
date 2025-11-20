@@ -36,7 +36,8 @@ mongoose.connect(MONGODB_CONNECT_URI)
 // y, para evitar problemas durante el desarrollo/pruebas, también la URL de Render.
 const allowedOrigins = [
     'https://tp-grupo-b.vercel.app', // Tu dominio principal de Frontend en Vercel
-    'https://tp-back-final.onrender.com', // Tu dominio de Backend en Render (a veces necesario)
+    'https://tp-back-final.onrender.com', 
+    'http://localhost:5173',      // Tu dominio de Backend en Render (a veces necesario)
     // Puedes añadir otros dominios o IPs de prueba si es necesario, como 'http://localhost:3000'
 ];
 
