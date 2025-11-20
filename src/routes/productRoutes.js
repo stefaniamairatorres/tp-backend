@@ -11,6 +11,7 @@ import {
   updateProduct,
   deleteProduct,
   uploadProductImage,
+  getProductsByCategory,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -31,6 +32,8 @@ const upload = multer({ storage });
 
 // ✅ Ruta para subir o cambiar imagen del producto
 router.put("/:id/image", upload.single("imagen"), uploadProductImage);
+
+router.get("/category/:categoryId", getProductsByCategory);
 
 // ✅ Rutas CRUD
 router.get("/", getProducts);

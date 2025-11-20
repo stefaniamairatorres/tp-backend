@@ -7,6 +7,45 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// ... (código existente del productController.js)
+
+// 🟢 Obtener Productos por ID de Categoría (FUNCIÓN FALTANTE)
+export const getProductsByCategory = async (req, res) => {
+    // 1. Obtener el ID de la categoría de los parámetros de la URL
+    const { categoryId } = req.params; 
+
+    try {
+        // 2. Ejecutar la consulta en la colección 'Product'
+        // Buscamos productos donde el campo 'category' (en el modelo Producto)
+        // coincida con el categoryId recibido.
+        const products = await Product.find({ category: categoryId })
+            // Opcional: Si quieres que muestre el nombre completo de la categoría en el resultado
+            .populate('category') 
+            .lean(); 
+        
+        if (!products || products.length === 0) {
+            // Manejar caso donde no hay productos o el ID es inválido
+            return res.status(404).json({ message: "No se encontraron productos para la categoría especificada." });
+        }
+
+        // 3. Devolver los productos encontrados
+        res.status(200).json(products);
+
+    } catch (error) {
+        console.error("Error en getProductsByCategory:", error);
+        // Manejo de errores (ej. ID malformado)
+        if (error.name === 'CastError') {
+             return res.status(404).json({ message: "ID de categoría inválido." });
+        }
+        res.status(500).json({ 
+            message: "Error al obtener productos por categoría.", 
+            error: error.message 
+        });
+    }
+};
+
+// ... (resto del código existente del productController.js)
+
 // 🟢 Crear producto
 export const createProduct = async (req, res) => {
   try {

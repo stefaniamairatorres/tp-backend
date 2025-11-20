@@ -87,8 +87,8 @@ Este proyecto consiste en una aplicación Full-Stack con un Frontend desplegado 
 | :--- | :--- | :--- |
 | **Link Repositorio Backend** | ✅ Listo | `https://github.com/stefaniamairatorres/tp-backend.git` |
 | **Link Repositorio Frontend** | ✅ Listo | `https://github.com/stefaniamairatorres/tp-grupo-b.git` |
-| **Link Frontend Desplegado** | ✅ Listo | `https://remarkable-souffle-ccdbb3.netlify.app` |
-| **Link Backend Desplegado (API)** | ✅ Listo | `https://tp-backend-2-mftw.onrender.com` |
+| **Link Frontend Desplegado** | ✅ Listo | `https://tp-grupo-b.vercel.app`  |
+| **Link Backend Desplegado (API)** | ✅ Listo | `https://tp-back-final.onrender.com`  |
 
 
 
@@ -103,6 +103,6 @@ Se utiliza un archivo `.env.example` en cada repositorio para mostrar las variab
 MONGO_URI=mongodb+srv://stefaniamairatorres_db_user:<db_password>@cudi-db-cluster.hy3t0zl.mongodb.net/?appName=cudi-db-cluster
 JWT_SECRET=miSecretoSuperSeguro
 PORT=5000
-FRONTEND_URL=https://remarkable-souffle-ccdbb3.netlify.app
+FRONTEND_URL=https://tp-grupo-b.vercel.app
 
 
