@@ -1,5 +1,4 @@
-import Category from "../../models/Category.js";
-
+import Category from "../models/categoryModel.js";
 // 1. FUNCIÓN PARA LISTAR CATEGORÍAS (GET)
 export const getCategories = async (req, res) => {
   try {
