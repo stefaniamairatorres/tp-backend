@@ -1,5 +1,4 @@
-import Product from "../models/productModel.js";
-// Desde src/controllers/, el `../` va a src/. Esto es lógicamente correcto.
+import Product from "../../models/productModel.js";// Desde src/controllers/, el `../` va a src/. Esto es lógicamente correcto.
 
 /**
  * Obtener todos los productos
