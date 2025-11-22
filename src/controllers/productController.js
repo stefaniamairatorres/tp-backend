@@ -1,4 +1,5 @@
 import Product from "../models/productModel.js";
+
 /**
  * Obtener todos los productos
  */
@@ -18,7 +19,7 @@ export const getProducts = async (req, res) => {
 /**
  * Obtener un producto por ID
  */
-export const getProductById = async (req, res) => {
+export const getProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id)
       .populate("category")
@@ -96,32 +97,5 @@ export const getProductsByCategory = async (req, res) => {
   } catch (error) {
     console.error("Error en getProductsByCategory:", error.message);
     res.status(500).json({ message: "Error al filtrar productos", error: error.message });
-  }
-};
-
-/**
- * Actualizar imagen del producto
- */
-export const uploadProductImage = async (req, res) => {
-  try {
-    if (!req.file) return res.status(400).json({ message: "No se envió ninguna imagen" });
-
-    const imagePath = `/uploads/${req.file.filename}`;
-
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      { image: imagePath },
-      { new: true }
-    );
-
-    if (!product) return res.status(404).json({ message: "Producto no encontrado" });
-
-    res.json({
-      message: "Imagen actualizada correctamente",
-      product,
-    });
-  } catch (error) {
-    console.error("Error en uploadProductImage:", error.message);
-    res.status(500).json({ message: "Error al cargar imagen", error: error.message });
   }
 };

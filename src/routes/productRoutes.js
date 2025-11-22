@@ -10,7 +10,6 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  uploadProductImage,
   getProductsByCategory,
 } from "../controllers/productController.js";
 
@@ -31,7 +30,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ✅ Ruta para subir o cambiar imagen del producto
-router.put("/:id/image", upload.single("imagen"), uploadProductImage);
 
 router.get("/category/:categoryId", getProductsByCategory);
 
