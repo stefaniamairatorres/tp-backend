@@ -1,4 +1,4 @@
-import Purchase from '../models/PurchaseModel.js';
+import Purchase from '../models/purchaseModel.js';
 
 /**
  * @desc Registra una nueva compra en la base de datos después de un pago exitoso
