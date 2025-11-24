@@ -50,6 +50,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/payment', paymentRoutes);
 
+app.use('/uploads', express.static('uploads'));
+
 // Manejo de errores 404
 app.use((req, res, next) => {
   res.status(404).send("Ruta no encontrada");
