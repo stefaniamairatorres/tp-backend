@@ -1,16 +1,19 @@
 import express from "express";
-import { registerUser, loginUser } from "../controllers/userController.js";
+import { registerUser, loginUser, logoutUser, getProfile } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
+// Registro
 router.post("/register", registerUser);
+
+// Login
 router.post("/login", loginUser);
 
-// Ejemplo de ruta protegida
-router.get("/profile", protect, (req, res) => {
-  res.json({ message: `Bienvenida ${req.user.nombre}`, user: req.user });
-});
+// Logout
+router.post("/logout", logoutUser);
+
+// Perfil protegido
+router.get("/profile", protect, getProfile);
 
 export default router;
-

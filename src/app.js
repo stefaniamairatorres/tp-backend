@@ -6,6 +6,9 @@ import mongoose from 'mongoose';
 import productRoutes from './routes/productRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import cookieParser from "cookie-parser";
+
 
 dotenv.config();
 
@@ -13,7 +16,7 @@ const app = express();
 
 // Middleware para procesar JSON
 app.use(express.json());
-
+app.use(cookieParser());
 // URI de respaldo (fallback) por si no está disponible la variable de entorno
 const HARDCODED_URI = 'mongodb+srv://stefaniamairatorres_db_user:stefania123456@cluster0.l9nrhim.mongodb.net/tienda?retryWrites=true&w=majority';
 const MONGODB_CONNECT_URI = process.env.MONGODB_URI || HARDCODED_URI;
@@ -51,6 +54,8 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/payment', paymentRoutes);
 
 app.use('/uploads', express.static('uploads'));
+
+app.use('/api/users', userRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {
